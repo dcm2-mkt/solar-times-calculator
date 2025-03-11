@@ -4,10 +4,11 @@ from astral import LocationInfo
 from astral.sun import sun
 import pytz
 from datetime import timezone, timedelta
+import os  # Add this import to access environment variables
 
 app = Flask(__name__)
 
-# List of the 30 largest U.S. cities with name, time zone, latitude, and longitude
+# List of cities (same as before)
 cities = [
     {"name": "New York, NY", "tz": "America/New_York", "lat": 40.7128, "lon": -74.0060},
     {"name": "Los Angeles, CA", "tz": "America/Los_Angeles", "lat": 34.0522, "lon": -118.2437},
@@ -110,4 +111,5 @@ def index():
     return render_template('index.html', cities=cities)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.getenv('PORT', 5000))  # Use PORT environment variable, default to 5000 if not set
+    app.run(host='0.0.0.0', port=port, debug=False)  # Bind to 0.0.0.0 and use the specified port
