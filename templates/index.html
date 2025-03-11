@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Times Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Solar Times Calculator</h1>
+        <form method="POST">
+            <label for="city">Select a City:</label>
+            <select name="city" id="city">
+                {% for city in cities %}
+                    <option value="{{ city.name }}">{{ city.name }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <label>Select DST Configuration:</label>
+            <div class="radio-group">
+                <input type="radio" id="never_dst" name="dst" value="Never DST" checked>
+                <label for="never_dst">Never DST</label>
+                <input type="radio" id="always_dst" name="dst" value="Always DST">
+                <label for="always_dst">Always DST</label>
+                <input type="radio" id="current_dst" name="dst" value="Current DST">
+                <label for="current_dst">Current DST</label>
+            </div>
+            <br><br>
+            <label for="date">Select Date:</label>
+            <input type="date" name="date" id="date" required>
+            <br><br>
+            <input type="submit" value="Calculate">
+        </form>
+        {% if sunrise and sunset and solar_noon %}
+            <h2>Results for {{ selected_city }} on {{ date }} with {{ dst_config }}</h2>
+            <p>Sunrise: {{ sunrise }}</p>
+            <p>Sunset: {{ sunset }}</p>
+            <p>Solar Noon: {{ solar_noon }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
